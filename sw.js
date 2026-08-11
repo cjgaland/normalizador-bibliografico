@@ -1,4 +1,4 @@
-const CACHE = 'normalizador-bibliografico-v1.6';
+const CACHE = 'normalizador-bibliografico-v1.7';
 const ASSETS = [
   './',
   './index.html',
@@ -10,8 +10,14 @@ const ASSETS = [
   './icono-512.png'
 ];
 
+// skipWaiting: un service worker nuevo toma el relevo de inmediato, sin
+// quedarse "esperando" a que se cierren todas las ventanas. Sin esto, un
+// worker en espera se queda atascado para siempre y no hay forma de
+// activarlo desde la página (era la causa del aviso de actualización que
+// no se iba). Es seguro porque el HTML ya va primero a la red.
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
+  self.skipWaiting();
 });
 self.addEventListener('activate', event => {
   event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))));
