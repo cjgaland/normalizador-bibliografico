@@ -33,6 +33,14 @@ Everything lives in one file, `Normalizador-bibliografico.html`: inline `<style>
 
 **Versioning convention**: the visible app version lives in three places that must be kept in sync manually — the `.version b` banner text, the changelog block in the help modal, and the `sw.js` `CACHE` constant.
 
+## Despliegue
+
+La app se publica en GitHub Pages desde la rama `main` (raíz del repo): https://cjgaland.github.io/normalizador-bibliografico/
+
+- `index.html` es solo un redirector a `Normalizador-bibliografico.html` (GitHub Pages exige `index.html` en la raíz). La fuente de verdad sigue siendo `Normalizador-bibliografico.html`; no dupliques lógica en `index.html`.
+- Desplegar = hacer commit y `git push` a `main`; Pages reconstruye solo (tarda ~30-60 s). No hay CI ni build step.
+- **Al publicar cambios que afecten a los assets cacheados, sube la versión del `CACHE` en `sw.js`** (y las otras dos referencias de versión descritas arriba), o los usuarios que ya instalaron la PWA seguirán viendo la versión vieja cacheada.
+
 ## Copias de seguridad locales
 
 Sistema de respaldo local con rotación (carpeta `Backup/`, ignorada en git):
