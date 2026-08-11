@@ -1,0 +1,14 @@
+{
+  "name": "Normalizador bibliográfico",
+  "short_name": "Bibliografía",
+  "description": "Herramienta local para normalizar referencias científicas.",
+  "lang": "es-ES",
+  "start_url": "./Normalizador-bibliografico.html",
+  "display": "standalone",
+  "background_color": "#f5f8fc",
+  "theme_color": "#2563eb",
+  "icons": [
+    { "src": "icono-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
