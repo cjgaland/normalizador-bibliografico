@@ -1,4 +1,4 @@
-const CACHE = 'normalizador-bibliografico-v1.5';
+const CACHE = 'normalizador-bibliografico-v1.6';
 const ASSETS = [
   './',
   './index.html',
@@ -17,6 +17,27 @@ self.addEventListener('activate', event => {
   event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))));
   self.clients.claim();
 });
+// El HTML va SIEMPRE primero a la red: así un despliegue nuevo se ve al
+// abrir la app, sin depender de que se active un service worker nuevo.
+// Si no hay conexión, se cae a la copia guardada. El resto (iconos,
+// manifest) sí va primero de caché, que no cambia entre versiones.
 self.addEventListener('fetch', event => {
-  event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request)));
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  const isDoc = req.mode === 'navigate' || req.destination === 'document';
+  if (isDoc) {
+    event.respondWith(
+      fetch(req)
+        .then(res => {
+          if (res && res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE).then(cache => cache.put(req, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req).then(cached => cached || caches.match('./Normalizador-bibliografico.html')))
+    );
+    return;
+  }
+  event.respondWith(caches.match(req).then(cached => cached || fetch(req)));
 });
