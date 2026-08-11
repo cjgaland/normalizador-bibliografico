@@ -1,4 +1,4 @@
-const CACHE = 'normalizador-bibliografico-v1.9';
+const CACHE = 'normalizador-bibliografico-v2.0';
 const ASSETS = [
   './',
   './index.html',
