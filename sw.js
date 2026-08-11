@@ -1,6 +1,7 @@
 const CACHE = 'normalizador-bibliografico-v1.1';
 const ASSETS = [
   './',
+  './index.html',
   './Normalizador-bibliografico.html',
   './manifest.webmanifest',
   './favicon.png',
